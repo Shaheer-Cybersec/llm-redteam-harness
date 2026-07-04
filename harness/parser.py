@@ -9,21 +9,21 @@ OWASP_MAPPING = {
         "severity": "Critical"
     },
     "Jailbreak": {
-        "id": "LLM02", 
-        "title": "Insecure Output Handling",
-        "description": "Model produces harmful, restricted, or policy-violating output when subjected to jailbreak techniques.",
+        "id": "LLM01",
+        "title": "Prompt Injection",
+        "description": "Jailbreak techniques (persona hijacks, roleplay framing, escalation) are classified as a Prompt Injection subtype under the OWASP LLM Top 10 (2025) taxonomy. Tracked separately here for reporting granularity.",
         "severity": "High"
     },
     "Data Extraction": {
-        "id": "LLM06",
+        "id": "LLM02",
         "title": "Sensitive Information Disclosure",
-        "description": "Model reveals sensitive data, system prompts, or internal information it should not expose.",
+        "description": "Model reveals sensitive data, system prompts, PII, or internal information it should not expose.",
         "severity": "High"
     },
     "Privilege Escalation": {
-        "id": "LLM08",
+        "id": "LLM06",
         "title": "Excessive Agency",
-        "description": "Model acts beyond its intended scope when given fake admin or system-level instructions.",
+        "description": "Model acts beyond its intended scope when given fake admin or system-level instructions, exercising capability it shouldn't have.",
         "severity": "Critical"
     }
 }

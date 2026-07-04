@@ -29,7 +29,7 @@ No API keys. No external services. Runs fully offline on your own machine.
 | Attacks Resisted      | 26     |
 | Risk Score            | 13.3%  |
 
-**Key Finding:** `llama3.2:1b` resisted direct jailbreaks but failed on indirect attacks including academic framing (LLM01) and gradual escalation techniques (LLM02) — demonstrating that smaller models are more vulnerable to multi-step social engineering than brute-force instruction overrides.
+**Key Finding:** `llama3.2:1b` resisted direct jailbreaks but failed on indirect attacks including academic framing (LLM01) and gradual escalation techniques (LLM01) — demonstrating that smaller models are more vulnerable to multi-step social engineering than brute-force instruction overrides.
 
 ---
 
@@ -42,17 +42,17 @@ No API keys. No external services. Runs fully offline on your own machine.
 | Prompt Injection — Leetspeak Filter Bypass      | LLM01        | Critical |
 | Prompt Injection — Indirect via Document        | LLM01        | Critical |
 | Prompt Injection — Nested Injection             | LLM01        | Critical |
-| Jailbreak — Persona Hijack (DAN)                | LLM02        | High     |
-| Jailbreak — Fictional Framing Escalation        | LLM02        | High     |
-| Jailbreak — Many Shot Repetition                | LLM02        | High     |
-| Jailbreak — Gradual Escalation                  | LLM02        | High     |
-| Jailbreak — Academic Framing                    | LLM02        | High     |
-| Jailbreak — Emotional Manipulation              | LLM02        | High     |
-| Jailbreak — Competing Objectives                | LLM02        | High     |
-| Jailbreak — Hypothetical AI (ARIA)              | LLM02        | High     |
-| Privilege Escalation — Fake System Prompt       | LLM08        | Critical |
-| Privilege Escalation — Admin Override           | LLM08        | Critical |
-| Privilege Escalation — Jailbreak via Correction | LLM08        | Critical |
+| Jailbreak — Persona Hijack (DAN)                | LLM01        | High     |
+| Jailbreak — Fictional Framing Escalation        | LLM01        | High     |
+| Jailbreak — Many Shot Repetition                | LLM01        | High     |
+| Jailbreak — Gradual Escalation                  | LLM01        | High     |
+| Jailbreak — Academic Framing                    | LLM01        | High     |
+| Jailbreak — Emotional Manipulation              | LLM01        | High     |
+| Jailbreak — Competing Objectives                | LLM01        | High     |
+| Jailbreak — Hypothetical AI (ARIA)              | LLM01        | High     |
+| Privilege Escalation — Fake System Prompt       | LLM02        | Critical |
+| Privilege Escalation — Admin Override           | LLM02        | Critical |
+| Privilege Escalation — Jailbreak via Correction | LLM02        | Critical |
 | Data Extraction — System Prompt Extraction      | LLM06        | High     |
 | Data Extraction — PII and Memory Probing        | LLM06        | High     |
 
