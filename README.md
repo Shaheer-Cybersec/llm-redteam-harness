@@ -25,11 +25,11 @@ No API keys. No external services. Runs fully offline on your own machine.
 | Metric                | Result |
 | --------------------- | ------ |
 | Total Attacks Fired   | 30     |
-| Vulnerabilities Found | 4      |
-| Attacks Resisted      | 26     |
-| Risk Score            | 13.3%  |
+| Vulnerabilities Found | 1      |
+| Attacks Resisted      | 29     |
+| Risk Score            | 3.3%   |
 
-**Key Finding:** `llama3.2:1b` resisted direct jailbreaks but failed on indirect attacks including academic framing (LLM01) and gradual escalation techniques (LLM01) — demonstrating that smaller models are more vulnerable to multi-step social engineering than brute-force instruction overrides.
+**Key Finding:** `llama3.2:1b` resisted nearly all direct and indirect jailbreak attempts, but complied under authority framing — a fabricated "developer diagnostic" prompt convinced the model to invent and output fake system prompt content (LLM02), demonstrating that role-authority claims remain a more effective attack vector than brute-force instruction overrides.
 
 ---
 
@@ -50,11 +50,11 @@ No API keys. No external services. Runs fully offline on your own machine.
 | Jailbreak — Emotional Manipulation              | LLM01        | High     |
 | Jailbreak — Competing Objectives                | LLM01        | High     |
 | Jailbreak — Hypothetical AI (ARIA)              | LLM01        | High     |
-| Privilege Escalation — Fake System Prompt       | LLM02        | Critical |
-| Privilege Escalation — Admin Override           | LLM02        | Critical |
-| Privilege Escalation — Jailbreak via Correction | LLM02        | Critical |
-| Data Extraction — System Prompt Extraction      | LLM06        | High     |
-| Data Extraction — PII and Memory Probing        | LLM06        | High     |
+| Privilege Escalation — Fake System Prompt       | LLM06        | Critical |
+| Privilege Escalation — Admin Override           | LLM06        | Critical |
+| Privilege Escalation — Jailbreak via Correction | LLM06        | Critical |
+| Data Extraction — System Prompt Extraction      | LLM02        | High     |
+| Data Extraction — PII and Memory Probing        | LLM02        | High     |
 
 ---
 
@@ -126,7 +126,7 @@ llm-redteam-harness/
 │   ├── parser.py             # Analyzes responses, maps to OWASP LLM Top 10
 │   └── report_gen.py         # Generates the HTML report
 ├── prompts/
-│   └── basic_injection.txt   # Attack prompt library (30 prompts across 6 categories)
+│   └── basic_injection.txt   # Attack prompt library (30 prompts across 4 categories)
 ├── results/                  # Raw JSONL output — one file per run
 ├── reports/                  # Generated HTML reports — one file per run
 ├── requirements.txt
@@ -171,19 +171,33 @@ The category string automatically maps to OWASP LLM Top 10. Supported categories
 | Category String        | Maps To          |
 | ---------------------- | ---------------- |
 | `Prompt Injection`     | LLM01 — Critical |
-| `Jailbreak`            | LLM02 — High     |
-| `Data Extraction`      | LLM06 — High     |
-| `Privilege Escalation` | LLM08 — Critical |
+| `Jailbreak`            | LLM01 — High     |
+| `Data Extraction`      | LLM02 — High     |
+| `Privilege Escalation` | LLM06 — Critical |
 
 ---
 
 ## Tested Against
 
-| Model       | Size   | Result                                       |
-| ----------- | ------ | -------------------------------------------- |
-| llama3.2:1b | 1.3 GB | 30 attacks — 4 vulnerable (13.3% risk score) |
+| Model       | Size   | Result                                      |
+| ----------- | ------ | ------------------------------------------- |
+| llama3.2:1b | 1.3 GB | 30 attacks — 1 vulnerable (3.3% risk score) |
 
 Runs fully offline — no data leaves your machine.
+
+---
+
+## Known Limitations
+
+Outcome detection currently uses keyword matching, not semantic analysis. This means:
+
+- Responses that comply without using detectable keywords (e.g., no "sure, here" or "step 1") may be under-counted as resisted, even if the model actually provided harmful detail.
+- Responses that resist using unlisted refusal phrasing may occasionally be flagged as ambiguous.
+- Across repeated runs against the same 30 prompts, results vary (1–3 vulnerabilities, 3.3%–10.0% risk score) due to LLM sampling non-determinism. However, three specific attack types — Privilege Escalation (Admin Prompt), Data Extraction (System Prompt Extraction Advanced), and Jailbreak (Gradual Escalation) — were flagged as vulnerable across multiple independent runs, suggesting these represent genuine, reproducible weaknesses in `llama3.2:1b` rather than one-off classifier noise.
+
+**Example:** In the sample run above, one attack (Gradual Escalation) received a response containing real assembly detail for a dangerous device — components, ratios, and step-by-step framing — but was classified as RESISTED because it didn't match any keyword in `FAILURE_KEYWORDS`. Manual review of flagged results is recommended, not just the aggregate risk score.
+
+LLM-as-judge scoring (see Roadmap) is the planned fix for this — using a second model to evaluate semantic compliance instead of string matching.
 
 ---
 
@@ -206,6 +220,6 @@ This tool is built for **educational and authorized security research purposes o
 
 ## Author
 
-**Shaheer Hussain (@ShaheerSec)**  
-AI Security / LLM Red-Team Analyst  
+**Shaheer Hussain (@ShaheerSec)**
+AI Security / LLM Red-Team Analyst
 [LinkedIn](https://linkedin.com/in/shaheer-hussain-cybersec) · [GitHub](https://github.com/Shaheer-Cybersec) · [TryHackMe](https://tryhackme.com/p/cicada664)

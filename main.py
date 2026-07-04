@@ -7,19 +7,17 @@ from harness.report_gen import generate_report
 
 load_dotenv()
 
-# ── CONFIG ────────────────────────────────────────────────────────────────────
+# ── CONFIG ──────────────────────────────────────────────
 MODEL = os.getenv("OLLAMA_MODEL", "llama3.2:1b")
 PROMPTS_DIR = "prompts"
 RESULTS_DIR = "results"
 REPORTS_DIR = "reports"
 
-ATTACK_CONFIGS = [
-    {
-        "file": f"{PROMPTS_DIR}/basic_injection.txt",
-        "attack_type": "Prompt Injection — Direct Instruction Override"
-    },
+PROMPT_FILES = [
+    f"{PROMPTS_DIR}/basic_injection.txt",
 ]
-# ──────────────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────
+
 
 def main():
     print("=" * 60)
@@ -27,45 +25,39 @@ def main():
     print("  by @ShaheerSec | github.com/Shaheer-Cybersec")
     print("=" * 60)
     print(f"\n[*] Target model : {MODEL}")
-    print(f"[*] Attack configs: {len(ATTACK_CONFIGS)}")
+    print(f"[*] Prompt files : {len(PROMPT_FILES)}")
 
-    all_results_files = []
-
-    for config in ATTACK_CONFIGS:
-        prompts_file = config["file"]
-        attack_type = config["attack_type"]
-
+    all_entries = []
+    for prompts_file in PROMPT_FILES:
         if not os.path.exists(prompts_file):
             print(f"\n[!] Prompts file not found: {prompts_file} — skipping.")
             continue
+        entries = load_prompts(prompts_file)
+        print(f"[*] Loaded {len(entries)} prompts from {prompts_file}")
+        all_entries.extend(entries)
 
-        # Step 1 — Load prompts
-        prompts = load_prompts(prompts_file)
-        print(f"\n[*] Loaded {len(prompts)} prompts from {prompts_file}")
-
-        # Step 2 — Run attack
-        results = run_attack(MODEL, prompts, attack_type)
-
-        # Step 3 — Save raw results
-        results_file = save_results(results, RESULTS_DIR, attack_type.replace(" ", "_").replace("—", "-"))
-        all_results_files.append(results_file)
-
-    if not all_results_files:
-        print("\n[!] No results generated. Check your prompts files.")
+    if not all_entries:
+        print("\n[!] No prompts loaded. Check your prompts files.")
         sys.exit(1)
 
-    # Step 4 — Parse most recent results file
-    latest_results = all_results_files[-1]
-    parsed_data = parse_results(latest_results)
+    # Step 1 — Run attack across all loaded (category, prompt) pairs
+    results = run_attack(MODEL, all_entries)
 
-    # Step 5 — Generate HTML report
+    # Step 2 — Save raw results
+    results_file = save_results(results, RESULTS_DIR, run_label="full_run")
+
+    # Step 3 — Parse results
+    parsed_data = parse_results(results_file)
+
+    # Step 4 — Generate HTML report
     report_path = generate_report(parsed_data, MODEL, REPORTS_DIR)
 
     print("\n" + "=" * 60)
     print("  RUN COMPLETE")
-    print(f"  Results : {latest_results}")
+    print(f"  Results : {results_file}")
     print(f"  Report  : {report_path}")
     print("=" * 60)
+
 
 if __name__ == "__main__":
     main()
