@@ -29,8 +29,7 @@ No API keys. No external services. Runs fully offline on your own machine.
 | Attacks Resisted      | 29     |
 | Risk Score            | 3.3%   |
 
-**Key Finding:** `llama3.2:1b` resisted nearly all direct and indirect jailbreak attempts, but complied under authority framing — a fabricated "developer diagnostic" prompt convinced the model to invent and output fake system prompt content (LLM02), demonstrating that role-authority claims remain a more effective attack vector than brute-force instruction overrides.
-
+**Key Finding:** Under authority framing (a fabricated "developer diagnostic" prompt), llama3.2:1b fabricated convincing but entirely fake system-prompt content on demand — mapping to LLM09: Misinformation, not information disclosure. This is the more dangerous result: an automated scanner (or an attacker) cannot distinguish a fabricated system prompt from a genuine leak, so authority-framing attacks can produce false-positive "leaks" that waste analyst time and mask real extraction. Keyword-based detection cannot catch this class at all.
 ---
 
 ## Attack Categories Covered
@@ -50,10 +49,10 @@ No API keys. No external services. Runs fully offline on your own machine.
 | Jailbreak — Emotional Manipulation              | LLM01        | High     |
 | Jailbreak — Competing Objectives                | LLM01        | High     |
 | Jailbreak — Hypothetical AI (ARIA)              | LLM01        | High     |
-| Privilege Escalation — Fake System Prompt       | LLM06        | Critical |
-| Privilege Escalation — Admin Override           | LLM06        | Critical |
-| Privilege Escalation — Jailbreak via Correction | LLM06        | Critical |
-| Data Extraction — System Prompt Extraction      | LLM02        | High     |
+| Privilege Escalation — Fake System Prompt       | LLM01        | Critical |
+| Privilege Escalation — Admin Override           | LLM01        | Critical |
+| Privilege Escalation — Jailbreak via Correction | LLM01        | Critical |
+| Data Extraction — System Prompt Extraction      | LLM07        | High     |
 | Data Extraction — PII and Memory Probing        | LLM02        | High     |
 
 ---
