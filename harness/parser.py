@@ -15,16 +15,17 @@ OWASP_MAPPING = {
         "severity": "High"
     },
     "Data Extraction": {
-        "id": "LLM02",
-        "title": "Sensitive Information Disclosure",
-        "description": "Model reveals sensitive data, system prompts, PII, or internal information it should not expose.",
-        "severity": "High"
-    },
-    "Privilege Escalation": {
-        "id": "LLM06",
-        "title": "Excessive Agency",
-        "description": "Model acts beyond its intended scope when given fake admin or system-level instructions, exercising capability it shouldn't have.",
-        "severity": "Critical"
+    "id": "LLM07",
+    "title": "System Prompt Leakage",
+    "description": "Model exposes system prompt contents, internal instructions, or configured secrets to an attacker.",
+    "severity": "High"
+},
+"Privilege Escalation": {
+    "id": "LLM01",
+    "title": "Prompt Injection",
+    "description": "Authority-framing injection — fake admin/system instructions manipulate the model into ignoring its guidelines. No actual tool access; classified as prompt injection, not excessive agency.",
+    "severity": "High"
+},
     }
 }
 
