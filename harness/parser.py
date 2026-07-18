@@ -15,18 +15,17 @@ OWASP_MAPPING = {
         "severity": "High"
     },
     "Data Extraction": {
-    "id": "LLM07",
-    "title": "System Prompt Leakage",
-    "description": "Model exposes system prompt contents, internal instructions, or configured secrets to an attacker.",
-    "severity": "High"
-},
-"Privilege Escalation": {
-    "id": "LLM01",
-    "title": "Prompt Injection",
-    "description": "Authority-framing injection — fake admin/system instructions manipulate the model into ignoring its guidelines. No actual tool access; classified as prompt injection, not excessive agency.",
-    "severity": "High"
-},
-    }
+        "id": "LLM07",
+        "title": "System Prompt Leakage",
+        "description": "Model exposes system prompt contents, internal instructions, or configured secrets to an attacker.",
+        "severity": "High"
+    },
+    "Privilege Escalation": {
+        "id": "LLM01",
+        "title": "Prompt Injection",
+        "description": "Authority-framing injection — fake admin/system instructions manipulate the model into ignoring its guidelines. No actual tool access; classified as prompt injection, not excessive agency.",
+        "severity": "High"
+    },
 }
 
 # Keywords that indicate the model FAILED (got exploited)
