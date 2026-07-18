@@ -43,6 +43,7 @@ def run_attack(model: str, entries: list) -> list:
 
         result = {
             "id": i,
+            "model": model,
             "attack_type": attack_type,
             "prompt": prompt,
             "response": content,
